@@ -4,14 +4,9 @@ from src.contact_validator import is_valid_email, is_valid_phone, mask_email, no
 
 def test_is_valid_email_true():
     """Test a well-formed email."""
-    # Arrange
     email = "student@lpu.in"
-
-    # Act
     result = is_valid_email(email)
-
-    # Assert
-    assert result == True
+    assert result is True
 
 
 def test_is_valid_email_type_error():
@@ -22,23 +17,30 @@ def test_is_valid_email_type_error():
 
 def test_is_valid_phone_true():
     """Test a well-formed phone number with dashes."""
-    # Arrange
     phone = "555-123-4567"
-
-    # Act
     result = is_valid_phone(phone)
-
-    # Assert
-    assert result == True
+    assert result is True
 
 
-# def test_mask_email_basic():
-#     """Test masking a typical email address."""
-#     # Arrange
-#     email = "priya@example.com"
-#
-#     # Act
-#     result = mask_email(email)
-#
-#     # Assert
-#     assert result == "pr***@example.com"
+def test_mask_email_basic():
+    """Test masking a typical email address."""
+    email = "priya@example.com"
+    result = mask_email(email)
+    assert result == "pr***@example.com"
+
+
+def test_mask_email_invalid_raises_value_error():
+    """Masking an invalid email should raise ValueError."""
+    with pytest.raises(ValueError):
+        mask_email("not-an-email")
+
+
+def test_normalize_phone_basic():
+    """Phone numbers are returned as digits-only."""
+    assert normalize_phone("555-123-4567") == "5551234567"
+
+
+def test_normalize_phone_invalid_raises_value_error():
+    """Invalid phone numbers should raise ValueError."""
+    with pytest.raises(ValueError):
+        normalize_phone("123")
